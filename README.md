@@ -32,6 +32,8 @@ When you navigate to a project in Redmine, a dropdown menu icon will appear next
 
 Only projects you have access to will be shown. Clicking on a subproject will lead you directly to that subproject while maintaining the current tab context (e.g., Issues, Files, etc.).
 
+![subprojects](https://github.com/user-attachments/assets/a22f9dc3-65c9-42e8-b7a6-2216acc74f69)
+
 #### Sub-menus for Wiki Pages
 
 In the Wiki section of a project, a dropdown menu icon appears next to the wiki page title. The menu lists links to all subpages directly under the current wiki page.
