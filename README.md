@@ -14,7 +14,7 @@ The Sub-Menus plugin enhances your Redmine experience by adding intuitive dropdo
 
 The Sub-Menus plugin is compatible with Redmine versions 4.0.X and above.
 
-1. Download the plugin from [gitlab @ Departement of Psychology](https://gitlab.psychologie.uzh.ch/smisch/redmine_submenus).
+1. Download the plugin from https://github.com/modoq/redmine_submenus
 2. Extract the plugin files to the `plugins` directory of your Redmine installation.
 3. Restart your Redmine server.
 
@@ -87,7 +87,7 @@ These macros provide flexibility for users who prefer structured information dir
 
 ## Support and Contribution
 
-🩹 If you need assistance or want to contribute to the development of this plugin, visit [gitlab @ Departement of Psychology](https://gitlab.psychologie.uzh.ch/smisch/redmine_submenus). We welcome your feedback and contributions!
+🩹 If you need assistance or want to contribute to the development of this plugin, visit https://github.com/modoq/redmine_submenus. We welcome your feedback and contributions!
 
 ## Licensing
 
