@@ -46,7 +46,7 @@ module SubMenuPatches
               end
 
               # Add the dropdown to the breadcrumb array
-              b << content_tag(:span, sub1+sub2, class: 'drdn', style: 'position: absolute; line-height: 1em;')  # position:absolute -> to override overflow:hidden of header element
+              b << content_tag(:span, sub1+sub2, class: 'drdn', style: 'position: inherit;')  # position:inherit -> to override overflow:hidden of header element
             else
               # If no subprojects, show the project name only
               b << content_tag(:span, h(@project), class: 'current-project')
