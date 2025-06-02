@@ -95,7 +95,7 @@ roles = role_names.map { |role_name| Role.find_by_name(role_name) }.compact
 
           html = "<ul>"
           ss.each do |s|
-            html << "<li>" + link_to(s.name, params[:controller] == 'wiki' ? project_wiki_path(s, :start) : project_path(s))
+            html << "<li>" + link_to(s.name, params[:controller] == 'wiki' ? project_wiki_path(s) : project_path(s))
             html << render_list.call(s, level + 1) if depth > 1 && level + 1 < depth
             html << "</li>"
           end
