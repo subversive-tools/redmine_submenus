@@ -1,0 +1,208 @@
+/* Kanban Board Layout */
+.kanban-board {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0px;
+  width: 100%;
+}
+
+/* Kanban Column Base Styling */
+.kanban-column {
+  flex: 1 0 auto;
+  /* min-width: 120px; */
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 0px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease;
+}
+
+.kanban-column h3 {
+  margin: 0 0 15px 0;
+  padding: 7px;
+  background-color: #e8e8e8;
+  border-radius: 4px 4px 0px 0px;
+  text-align: center;
+}
+
+/* Kanban Cards Container */
+.kanban-cards {
+  flex: 1;
+  padding: 10px;
+  border: 2px dashed transparent;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Drop zone visual feedback */
+.kanban-cards.drag-over {
+  background-color: #e8f4fd !important;
+  border: 2px dashed #007cba !important;
+}
+
+/* Kanban Card Styling */
+.kanban-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: move;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 150px;
+  max-width: 250px;
+  width: 100%;
+}
+
+.kanban-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Card content styling */
+.card-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.card-description {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+.card-members {
+  font-size: 0.8em;
+  color: #888;
+}
+
+/* Drag and Drop Effects */
+.kanban-card.dragging {
+  transform: rotate(5deg) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  opacity: 0.8;
+  z-index: 1000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kanban-card.drag-placeholder {
+  opacity: 0.5;
+}
+
+/* Meta-Status Styling for Kanban Columns */
+
+/* Pool Status - Hellgelb-transparent */
+.kanban-column.meta-pool {
+  background-color: rgba(255, 255, 0, 0.1) !important;
+}
+
+.kanban-column.meta-pool h3 {
+  background-color: rgba(255, 255, 0, 0.2) !important;
+}
+
+/* Implementation Status - Hellblau-transparent */
+.kanban-column.meta-implementation {
+  background-color: rgba(0, 123, 255, 0.1) !important;
+}
+
+.kanban-column.meta-implementation h3 {
+  background-color: rgba(0, 123, 255, 0.2) !important;
+}
+
+/* Done Status - Hellgrün-transparent */
+.kanban-column.meta-done {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+.kanban-column.meta-done h3 {
+  background-color: rgba(40, 167, 69, 0.2) !important;
+}
+
+/* Warning/Error Messages */
+.kanban-warning {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #f0ad4e;
+  background-color: #fcf8e3;
+  border-radius: 4px;
+}
+
+/* Project Status Tag in Overview */
+.project-status-tag {
+  display: inline-block;
+  padding: 4px 9px;
+  margin-left: 13px;
+  font-size: 0.55em;
+  font-weight: normal;
+  border-radius: 16px;
+  background-color: #e8e8e8;
+  color: #333;
+  vertical-align: middle;
+  box-shadow: 0px 0px 4px #00000024;
+}
+
+/* Meta-Status coloring for Project Status Tags (same colors as column headers) */
+.project-status-tag.meta-pool {
+  background-color: rgba(255, 255, 0, 0.2) !important;
+  color: #666600 !important;
+}
+
+.project-status-tag.meta-implementation {
+  background-color: rgba(0, 123, 255, 0.2) !important;
+  color: #004085 !important;
+}
+
+.project-status-tag.meta-done {
+  background-color: rgba(40, 167, 69, 0.2) !important;
+  color: #155724 !important;
+}
+
+/* Dropdown Menu Styles for Wiki and Projects */
+.drdn {
+  line-height: 1em;
+}
+
+.drdn-content.contextual {
+  right: auto;
+  top: auto;
+  line-height: 1rem;
+  padding: 0;
+}
+
+/* Wiki Dropdown Links Styling */
+.drdn-items a,
+.drdn-link {
+  font-size: 0.9rem;
+  font-weight: initial;
+  opacity: initial;
+}
+
+/* Table Row Indentation for Subprojects */
+.table-indent-1 {
+  padding-left: 1.2em;
+}
+
+.table-indent-2 {
+  padding-left: 2.4em;
+}
+
+.table-indent-3 {
+  padding-left: 3.6em;
+}
+
+.table-indent-4 {
+  padding-left: 4.8em;
+}
+
+.table-indent-5 {
+  padding-left: 6.0em;
+}
+
+/* Table Row Bullet Points */
+.table-bullet {
+  margin: 0 0.5em 0 -0.8em;
+}

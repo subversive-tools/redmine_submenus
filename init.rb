@@ -13,14 +13,22 @@ Redmine::Plugin.register :redmine_submenus do
   settings default: {
     'show_subprojects_menu' => '1',
     'show_subwiki_menu' => '1',
-    'dropdown_menu_symbol' => '»'
+    'dropdown_menu_symbol' => '»',
+    'kanban_allowed_roles' => 'Manager'
   }, partial: 'settings/sub_settings'
 
+  Rails.application.config.assets.precompile += %w(
+    redmine_submenus/*.js
+    redmine_submenus/*.css
+  )
+  
   # Load patches
   Rails.configuration.to_prepare do
     require_dependency 'sub_menu_patches'
     require_dependency 'wiki_content_hook'
     require_dependency 'new_subproject_patch'
     require_dependency 'sub_macros'
+    # require_dependency 'projects_helper_patch'
+    require_dependency 'project_status_tag_hook'  # Re-enabled for fallback test
   end
 end

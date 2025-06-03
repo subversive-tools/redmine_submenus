@@ -56,14 +56,14 @@ module WikiContentHook
       
       # Generate the dropdown content with links to child pages
       dropdown_content = children.map do |child|
-        link_to(child.title, project_wiki_page_path(child.project, child.title), style: 'font-size: 0.9rem; font-weight: initial; opacity: initial;')
+        link_to(child.title, project_wiki_page_path(child.project, child.title), class: 'drdn-link')
       end.join.html_safe
 
       # Create the complete dropdown menu HTML
       dropdown_menu = <<-HTML
-        <span class="drdn" style="line-height: 1em;">
+        <span class="drdn">
           <span class="current-page drdn-trigger">#{h(original_title)} #{menu_symbol}</span>
-          <div class="drdn-content contextual" style="right: auto; top: auto; line-height: 1rem; padding: 0;">
+          <div class="drdn-content contextual">
             <div class="drdn-items">
               #{dropdown_content}
             </div>

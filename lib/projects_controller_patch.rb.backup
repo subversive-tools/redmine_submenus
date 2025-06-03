@@ -1,0 +1,74 @@
+# Patch to add kanban functionality to ProjectsController
+module ProjectsControllerPatch
+  def self.included(base)
+    base.class_eval do
+      before_action :find_project, only: [:update_kanban_status]
+      before_action :authorize_kanban_update, only: [:update_kanban_status]
+      
+      def update_kanban_status
+        # Skip authorization for this specific action within the method
+        respond_to do |format|
+          format.json do
+            project_status_field = CustomField.where(
+              type: 'ProjectCustomField', 
+              name: 'Project Status',
+              field_format: 'list'
+            ).first
+
+            unless project_status_field
+              render json: { success: false, error: 'Project Status custom field not found' }
+              return
+            end
+
+            new_status = params[:status]
+            
+            # Validate that the status is one of the allowed values (or "Offen")
+            allowed_statuses = project_status_field.possible_values + ["Offen"]
+            unless allowed_statuses.include?(new_status)
+              render json: { success: false, error: 'Invalid status value' }
+              return
+            end
+
+            # Update the project's custom field value
+            # For "Offen" status, we set it to nil/empty
+            status_value = (new_status == "Offen") ? "" : new_status
+            
+            begin
+              @project.custom_field_values = { project_status_field.id => status_value }
+              
+              if @project.save
+                render json: { success: true, message: 'Project status updated successfully' }
+              else
+                render json: { success: false, error: @project.errors.full_messages.join(', ') }
+              end
+            rescue => e
+              render json: { success: false, error: e.message }
+            end
+          end
+        end
+      end
+
+      private
+
+      def authorize_kanban_update
+        # Check if user is logged in
+        unless User.current.logged?
+          render json: { success: false, error: 'Authentication required' }
+          return
+        end
+
+        # Check if user has permission to manage the project
+        unless User.current.allowed_to?(:manage_project, @project) || 
+               User.current.allowed_to?(:edit_project, @project) ||
+               @project.users.include?(User.current)
+          render json: { success: false, error: 'Insufficient permissions' }
+        end
+      end
+    end
+  end
+end
+
+# Apply the patch
+unless ProjectsController.included_modules.include?(ProjectsControllerPatch)
+  ProjectsController.send(:include, ProjectsControllerPatch)
+end

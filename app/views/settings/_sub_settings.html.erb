@@ -17,3 +17,13 @@
 	<%= label_tag 'settings[dropdown_menu_symbol]', 'Dropdown Menu Symbol' %>
 	<%= text_field_tag 'settings[dropdown_menu_symbol]', @settings['dropdown_menu_symbol'] %>
 </p>
+
+<!-- Kanban permissions -->
+<h3>Kanban Permissions:</h3>
+
+<p>
+	<%= label_tag 'settings[kanban_allowed_roles]', 'Roles allowed to change project status (comma-separated)' %>
+	<%= text_field_tag 'settings[kanban_allowed_roles]', @settings['kanban_allowed_roles'], 
+	                   placeholder: 'Manager, Developer', size: 50 %>
+	<br><small>Leave empty to allow all project members. Default: Manager</small>
+</p>
