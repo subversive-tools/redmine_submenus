@@ -1,7 +1,19 @@
 class ProjectStatusTagHook < Redmine::Hook::ViewListener
   # Load CSS for all plugin functionality
   def view_layouts_base_html_head(context = {})
-    stylesheet_link_tag 'kanban.css', plugin: 'redmine_submenus'
+    # Try different methods for cross-version compatibility
+    begin
+      stylesheet_link_tag 'kanban.css', plugin: 'redmine_submenus'
+    rescue => e
+      # Fallback: inline CSS loading if plugin assets don't work
+      css_path = File.join(File.dirname(__FILE__), '..', 'assets', 'stylesheets', 'kanban.css')
+      if File.exist?(css_path)
+        css_content = File.read(css_path)
+        "<style type='text/css'>#{css_content}</style>".html_safe
+      else
+        ""
+      end
+    end
   end
 
   def view_projects_show_left(context = {})

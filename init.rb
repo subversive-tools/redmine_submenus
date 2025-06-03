@@ -17,10 +17,7 @@ Redmine::Plugin.register :redmine_submenus do
     'kanban_allowed_roles' => 'Manager'
   }, partial: 'settings/sub_settings'
 
-  Rails.application.config.assets.precompile += %w(
-    redmine_submenus/*.js
-    redmine_submenus/*.css
-  )
+  # CSS loading handled via view hooks - no asset pipeline registration needed
   
   # Load patches
   Rails.configuration.to_prepare do
