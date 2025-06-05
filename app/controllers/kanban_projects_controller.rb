@@ -50,20 +50,9 @@ class KanbanProjectsController < ApplicationController
   end
 
   def authorize_kanban_update
-    # Get allowed roles from plugin settings
-    allowed_roles_setting = Setting.plugin_redmine_submenus['kanban_allowed_roles'] || 'Manager'
-    allowed_roles = allowed_roles_setting.split(',').map(&:strip)
-    
-    # Check if user has admin rights
-    return if User.current.admin?
-    
-    # Check if user has required role in this project
-    user_roles = @project.members.joins(:user, :roles)
-                        .where(users: { id: User.current.id })
-                        .pluck('roles.name')
-    
-    unless (user_roles & allowed_roles).any?
-      render json: { success: false, error: "Insufficient permissions - #{allowed_roles.join(' or ')} role required" }
+    # Use Redmine's built-in authorization system
+    unless User.current.allowed_to?(:manage_project_status, @project)
+      render json: { success: false, error: 'Insufficient permissions to change project status' }
     end
   end
 end
