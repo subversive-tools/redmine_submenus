@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: "Redmine ${{ matrix.redmine }} / Ruby ${{ matrix.ruby }}"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - redmine: "5.1-stable"
+            ruby: "3.1"
+          - redmine: "6.0-stable"
+            ruby: "3.2"
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: redmine_test
+          POSTGRES_USER: redmine
+          POSTGRES_PASSWORD: redmine
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      RAILS_ENV: test
+      BUNDLE_WITH: postgresql
+
+    steps:
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+        with:
+          path: plugin_src
+
+      - name: Checkout Redmine ${{ matrix.redmine }}
+        uses: actions/checkout@v4
+        with:
+          repository: redmine/redmine
+          ref: ${{ matrix.redmine }}
+          path: redmine
+
+      - name: Move plugin into Redmine
+        run: mv plugin_src redmine/plugins/redmine_submenus
+
+      - name: Setup Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          working-directory: redmine
+          bundler-cache: true
+
+      - name: Configure test database
+        run: |
+          cat > redmine/config/database.yml << 'EOF'
+          test:
+            adapter: postgresql
+            host: localhost
+            port: 5432
+            database: redmine_test
+            username: redmine
+            password: redmine
+            encoding: utf8
+          EOF
+
+      - name: Migrate Redmine & plugin
+        working-directory: redmine
+        run: |
+          bundle exec rake db:migrate
+          bundle exec rake redmine:plugins:migrate NAME=redmine_submenus
+
+      - name: Run plugin tests
+        working-directory: redmine
+        run: bundle exec rake test:plugins NAME=redmine_submenus
